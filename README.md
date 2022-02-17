@@ -7,17 +7,11 @@ project clone from `react-native-yz-vlcplayer`
 
 ## Installing the package
 
-* Use yarn
 
 ```sh
-yarn add @nghinv/react-native-vlc
+npm i git+https://github.com/sbcsoft/react-native-vlc.git
 ```
 
-* Use npm
-
-```sh
-npm install @nghinv/react-native-vlc
-```
 
 ### Dependencies
 
