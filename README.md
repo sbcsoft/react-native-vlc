@@ -1,195 +1,150 @@
-# @nghinv/react-native-vlc
+# react-native-vlc-media-player
 
-A `VLCPlayer` component for react-native
-project clone from `react-native-yz-vlcplayer`
+## New feature requests and bug fixes 
 
-# Installation
-
-## Installing the package
+At the moment I am a bit tied up with other work. As a matter of fact, I don't get much time to develop at all nowadays. But I am more than open to help anyone who wants's to contribute to this repo. And I will be sure to merge any fixes as soon as PR's come up. But if you need someone to fix issues that affect you till I get back to this(ETA Q3 2022), One option is to add a bounty to the following site https://www.bountysource.com/ someone will attend to it.
 
 
-```sh
-npm i git+https://github.com/sbcsoft/react-native-vlc.git
-```
 
 
-### Dependencies
+## Supported RN Versions
 
-- react-native-vector-icons
+0.59 > 0.62 and up
+PODs are updated to works with 0.61 and up.(Tested in 0.61.5 and 0.62 and 0.63)
 
-- react-native-slider
+## Sample repo
 
+[VLC Media Player test](https://github.com/razorRun/react-native-vlc-media-player-test)
+
+## Supported formats
+
+Support for network streams, RTSP, RTP, RTMP, HLS, MMS.
+Play all files,[ in all formats, including exotic ones, like the classic VLC media player.](#-More-formats)
+Play MKV, multiple audio tracks (including 5.1), and subtitles tracks (including SSA!)
+
+### Add it to your project
+
+Run
+
+`npm i react-native-vlc-media-player --save`
+
+or
+
+`yarn add react-native-vlc-media-player`
+
+
+Run 
+
+`react-native link react-native-vlc-media-player`
 
 ## android
 
-* **With autolinking (react-native 0.60+)**
+Should work without any specific settings
 
-* **Pre 0.60**
-
-> Run `react-native link @nghinv/react-native-vlc`
-
-
-## ios
-
-* **With autolinking (react-native 0.60+)**
-
-> Run `cd ios && pod install`
-
-* **Pre 0.60**
-
-Use framework
+## iOS
 
 1. cd to ios
+2. run `pod init` (if only Podfile has not been generated in ios folder)
+3. add `pod 'MobileVLCKit', '3.3.10'` to pod file **(No need if you are running RN 0.61 and up)** 
+4. run `pod install` (you have to delete the app on the simulator/device and run `react-native run-ios` again)
 
-2. run `pod init`
+## Optional (only for ios)
 
-3. add `pod 'MobileVLCKit', '3.3.10'` to pod file
+Enable Bitcode
+in root project select Build Settings ---> find Bitcode and select Enable Bitcode
 
-4. run `pod install`
+## TODO
+
+1. Android video Aspect ratio and other params do not work (Events are called but all events come through a single event onVideoStateChange but the JS side does not implement it.).
+
+## Got a few minutes to spare? Please help us to keep this repo up to date and simple to use. 
+
+#### Our idea was to keep the repo simple, and people can use it with newer RN versions without any additional config.
 
 
-* **Enable Bitcode**
+1. Get a fork of this repo and clone [VLC Media Player test](https://github.com/razorRun/react-native-vlc-media-player-test) 
+2. Run it for ios and android locally using your fork, and do the changes. (remove this package using ```npm remove react-native-vlc-media-player``` and install the forked version from git hub ```npm i https://git-address-to-your-forked-repo```)  
+3. Verify your changes and make sure everything works on both platforms. (If you need a hand with testing I might be able to help as well)
+4. Send PR.
+5. Be happy, Cause you're a Rockstar 🌟 ❤️
 
-In root project select Build Settings ---> find Bitcode and select Enable Bitcode
+## Use
 
-![](./images/bitcode.png)
+```
+import { VLCPlayer, VlCPlayerView } from 'react-native-vlc-media-player';
+import Orientation from 'react-native-orientation';
 
-* **Remove DSYM**
-
-In root project select Build Settings --> Build Options --> Debug Information is set to DWARF.
-
-![](./images/dsym.png)
-
-# Example
-
-```javascript
-  (1) import { VLCPlayer, VlCPlayerView } from '@nghinv/react-native-vlc';
-
-  (2) 
     <VLCPlayer
-      ref={ref => (this.vlcPlayer = ref)}
-      style={[styles.video]}
-      videoAspectRatio="16:9"
-      paused={this.state.paused}
-      source={{ uri: this.props.uri}}
-      onProgress={this.onProgress.bind(this)}
-      onEnd={this.onEnded.bind(this)}
-      onBuffering={this.onBuffering.bind(this)}
-      onError={this._onError}
-      onStopped={this.onStopped.bind(this)}   
-      onPlaying={this.onPlaying.bind(this)}
-      onPaused={this.onPaused.bind(this)}      
+        style={[styles.video]}
+        videoAspectRatio="16:9"
+        source={{ uri: "https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4"}}
     />
-  (3) or use
+
+or you can use
+
     <VlCPlayerView
-      autoplay={false}
-      url={this.state.url}
-      Orientation={Orientation}      
-      BackHandle={BackHandle}
-      showTitle={true}
-      title=""
-      showBack={true}
-      onLeftPress={()=>{}}
-      startFullScreen={() => {      
-        this.setState({
-        isFull: true,
-        });
-      }}
-      closeFullScreen={() => {
-        this.setState({
-        isFull: false,
-        });
-      }}
-    />
+          autoplay={false}
+          url="https://www.radiantmediaplayer.com/media/big-buck-bunny-360p.mp4"
+          Orientation={Orientation}
+          ggUrl=""
+          showGG={true}
+          showTitle={true}
+          title="Big Buck Bunny"
+          showBack={true}
+          onLeftPress={()=>{}}
+       />
 ```
 
-# Property
+### VLCPlayer Props
 
-## VLCPlayer component
+Prop | Description | Default
+---- | ----------- | -------
+`source` | Object that contains the uri of a video or song to play eg `{{ uri: "https://video.com/example.mkv" }}` | `{}`
+`paused` | Set to `true` or `false` to pause or play the media | `false`
+`repeat` | Set to `true` or `false` to loop the media | `false`
+`rate` | Set the playback rate of the player| `1`
+`seek` | Set position to seek between `0` and `1` (`0` being the start, `1` being the end , use `position` from the progress object )
+`volume` | Set the volume of the player (`number`)
+`muted` | Set to `true` or `false` to mute the player |  `false`
+`playInBackground` | Set to `true` or `false` to allow playing in the background | false
+`videoAspectRatio ` | Set the video aspect ratio eg `"16:9"`
+`autoAspectRatio` | Set to `true` or `false` to enable auto aspect ratio | false
+`resizeMode` | Set the behavior for the video size (`fill, contain, cover, none, scale-down`) | none
+`style` | React native stylesheet styles| `{}`
 
-| Property | Type | Default | Description |
-|----------|:----:|:-------:|-------------|
-| rate | `number` |         |             |
-| seek | `number` |         |             |
-| resume | `boolean` |      |             |
-| position | `number` |      |             |
-| snapshotPath | `string` |      |             |
-| paused | `boolean` |      |             |
-| autoAspectRatio | `boolean` |      |     |
-| videoAspectRatio | `string` | `16:9`     |     |
-| volume | `number` |      | from 0 to 200    |
-| volumeUp | `number` |     |             |
-| volumeDown | `number` |     |             |
-| repeat | `boolean` |     |             |
-| muted | `boolean` |     |             |
-| hwDecoderForced | `number` |  `0, 1` | (Only android) need use with hwDecoderForced |
-| hwDecoderEnabled | `number` |  `0, 1`   | Only android) need use with hwDecoderEnabled |
-| style | `ViewStyle` |     |             |
-| onVideoLoadStart | `func` |     |             |
-| onVideoStateChange | `func` |     |             |
-| onVideoProgress | `func` |     |             |
-| onSnapshot | `func` |     |             |
-| onIsPlaying | `func` |     |             |
-| onOpen | `func` |     |             |
-| onLoadStart | `func` |     |             |
-| source | `oject, number` |     |             |
-| play | `func` |     |             |
-| snapshot | `func` |     |             |
-| onError | `func` |     |             |
-| onProgress | `func` |     | { currentTime:1000,duration:1000 } unit：ms |
-| onEnded | `func` |     |             |
-| onStopped | `func` |     |             |
-| onPlaying | `func` |     |             |
-| onPaused | `func` |     |             |
-| scaleX | `number` |     |             |
-| scaleY | `number` |     |             |
-| translateX | `number` |     |             |
-| translateY | `number` |     |             |
-| rotation | `number` |     |             |
+#### Callback props
+
+Callback props take a function that gets fired on various player events:
+
+Prop | Description
+---- | -----------
+`onPlaying` | Called when media starts playing returns eg `{target: 9, duration: 99750, seekable: true}`
+`onProgress` | Callback containing `position` as a fraction, and `duration`, `currentTime` and `remainingTime` in seconds <br />&nbsp; ◦ &nbsp;eg `{  duration: 99750, position: 0.30, currentTime: 30154, remainingTime: -69594 }`
+`onPaused` | Called when media is paused
+`onStopped ` | Called when media is stoped
+`onBuffering ` | Called when media is buffering
+`onEnded` | Called when media playing ends
+`onError` | Called when an error occurs whilst attempting to play media
 
 
-## VlCPlayerView component
+## More formats
 
-| Property | Type | Default | Description |
-|----------|:----:|:-------:|-------------|
-| style | `ViewStyle` |         |         |
-| videoStyle | `ViewStyle` |         |         |
-| initPaused | `boolean` | false |  |
-| source | `oject, number` |  | `{ uri: 'http:...' }` |
-| seek | `number` | 0 |  |
-| playInBackground | `boolean` | false |  |
-| isAd | `boolean` | false |  |
-| showAd | `boolean` | false |  |
-| adUrl | `string` |  |  |
-| autoplay | `boolean` | true |  |
-| fullVideoAspectRatio | `string` |  |  |
-| videoAspectRatio | `string` |  |  |
-| errorTitle | `string` | `Video playback error, please reload` |  |
-| height | `number` | 250 |  |
-| url | `string` |  | url of video |
-| showBack | `boolean` | false |  |
-| showTitle | `boolean` | false |  |
-| title | `string` |  |  |
-| showGoLive | `boolean` | false |  |
-| showLeftButton | `boolean` | true |  |
-| showMiddleButton | `boolean` | true |  |
-| showRightButton | `boolean` | true |  |
-| animationLayout | `boolean` | true |  |
-| titleGolive | `string` | `Go live` | show when showGoLive true |
-| onEnd | `func` |  |  |
-| onAdEnd | `func` |  |  |
-| startFullScreen | `func` |  |  |
-| closeFullScreen | `func` |  |  |
-| onLeftPress | `func` |  |  |
-| onGoLivePress | `func` |  |  |
-| onReplayPress | `func` |  |  |
-| onVLCProgress | `func` |  |  |
-| onVLCEnded | `func` |  |  |
-| onVLCError | `func` |  |  |
-| onVLCBuffering | `func` |  |  |
-| BackHandle |  | `undefined` | BackAndroid |
-| Orientation |  | `undefined` | `react-native-orientation-locker` |
+Container formats: 3GP, ASF, AVI, DVR-MS, FLV, Matroska (MKV), MIDI, QuickTime File Format, MP4, Ogg, OGM, WAV, MPEG-2 (ES, PS, TS, PVA, MP3), AIFF, Raw audio, Raw DV, MXF, VOB, RM, Blu-ray, DVD-Video, VCD, SVCD, CD Audio, DVB, HEIF, AVIF
+Audio coding formats: AAC, AC3, ALAC, AMR, DTS, DV Audio, XM, FLAC, It, MACE, MOD, Monkey's Audio, MP3, Opus, PLS, QCP, QDM2/QDMC, RealAudio, Speex, Screamtracker 3/S3M, TTA, Vorbis, WavPack, WMA (WMA 1/2, WMA 3 partially).
+Capture devices: Video4Linux (on Linux), DirectShow (on Windows), Desktop (screencast), Digital TV (DVB-C, DVB-S, DVB-T, DVB-S2, DVB-T2, ATSC, Clear QAM)
+Network protocols: FTP, HTTP, MMS, RSS/Atom, RTMP, RTP (unicast or multicast), RTSP, UDP, Sat-IP, Smooth Streaming
+Network streaming formats: Apple HLS, Flash RTMP, MPEG-DASH, MPEG Transport Stream, RTP/RTSP ISMA/3GPP PSS, Windows Media MMS
+Subtitles: Advanced SubStation Alpha, Closed Captions, DVB, DVD-Video, MPEG-4 Timed Text, MPL2, OGM, SubStation Alpha, SubRip, SVCD, Teletext, Text file, VobSub, WebVTT, TTML
+Video coding formats: Cinepak, Dirac, DV, H.263, H.264/MPEG-4 AVC, H.265/MPEG HEVC, AV1, HuffYUV, Indeo 3, MJPEG, MPEG-1, MPEG-2, MPEG-4 Part 2, RealVideo 3&4, Sorenson, Theora, VC-1,[h] VP5, VP6, VP8, VP9, DNxHD, ProRes and some WMV.
 
-# Supported formats
+## credits
 
-Supported formats mp4, m3u8, flv,mov, rtsp, rtmp, etc.
+[ammarahm-ed](https://github.com/ammarahm-ed)
+[Nghi-NV](https://github.com/Nghi-NV)
+[xuyuanzhou](https://github.com/xuyuanzhou)
+
+## sponsors 
+
+Huge thanks to "[smartlife - one of the best custom home automation companies in new zealand](https://www.smartlife.nz/)" for helping me to keep this repo maintained 
+
+Author - Roshan Milinda -> [roshan.digital](https://roshan.digital)
