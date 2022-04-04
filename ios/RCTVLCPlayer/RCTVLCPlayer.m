@@ -139,6 +139,9 @@ static NSString *const playbackRate = @"rate";
         [media addOption:[option stringByReplacingOccurrencesOfString:@"--" withString:@""]];
     }
 
+    // udp fix
+    [media addOption:@":rtsp-tcp"];
+
     _player.media = media;
     [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
     NSLog(@"autoplay: %i",autoplay);
