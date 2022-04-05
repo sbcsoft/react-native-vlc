@@ -336,9 +336,6 @@ class ReactVlcPlayerView extends TextureView implements
                     cOptions.add(option);
                 }
             }
-
-            cOptions.add("--rtsp-tcp"); 
-
             // Create LibVLC
             if (initType == 1) {
                 libvlc = new LibVLC(getContext());
@@ -385,6 +382,9 @@ class ReactVlcPlayerView extends TextureView implements
                     m.addOption(option);
                 }
             }
+            //udp fix
+            m.addOption(":rtsp-tcp");
+            
             mMediaPlayer.setMedia(m);
             mMediaPlayer.setScale(0);
 
